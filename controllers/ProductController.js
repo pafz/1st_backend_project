@@ -7,8 +7,35 @@ const ProductController = {
       res.status(201).send({ message: 'Product insert successfully!', product })
     );
   },
+
+  //endpoint to update
+  async update(req, res) {
+    await Product.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.send('Product successfully updated');
+  },
+
+  // endpoint to delete
+  async delete(req, res) {
+    try {
+      await Product.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send('The product has been successfully removed');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+  },
+
+  // TODO: works?! endpoint to show products & categories
   getAll(req, res) {
-    Product.findAll({ include: [User] })
+    Product.findAll({ include: [Categories] })
       .then(products => res.send(products))
       .catch(err => {
         console.log(err);
@@ -17,11 +44,13 @@ const ProductController = {
           .send({ message: 'There is a problem to load products' });
       });
   },
+
   getById(req, res) {
     Product.findByIdPk(req.param.id, {
       include: [User],
     }).then(product => res.send(product));
   },
+
   getOneByName(req, res) {
     Product.findAll({
       where: {
@@ -32,6 +61,7 @@ const ProductController = {
       include: [User],
     }).then(product => res.send(product));
   },
+
   getOneByPrice(req, res) {
     Product.findAll({
       where: {
@@ -42,6 +72,7 @@ const ProductController = {
       include: [User],
     }).then(product => res.send(product));
   },
+
   //TODO: check if it is ok
   getDescByPrice(req, res) {
     Product.findAll({

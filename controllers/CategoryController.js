@@ -4,7 +4,6 @@ const { Category, Product } = require('../models/index');
 const CategoryController = {
   //endpoint to create
   create(req, res) {
-    req.body.role = 'category';
     Category.create(req.body)
       .then(category =>
         res
@@ -12,7 +11,9 @@ const CategoryController = {
           .send({ message: 'Category created successfully!', category })
       )
       .catch(console.error);
-  }, //endpoint to update
+  },
+
+  //endpoint to update
   async update(req, res) {
     await Category.update(req.body, {
       where: {
@@ -20,7 +21,9 @@ const CategoryController = {
       },
     });
     res.send('Category successfully updated');
-  }, // endpoint to delete
+  },
+
+  // endpoint to delete
   async delete(req, res) {
     try {
       await Category.destroy({
@@ -33,7 +36,9 @@ const CategoryController = {
       console.error(error);
       res.status(500).send(error);
     }
-  }, //TODO: check!? endpoint to see all categories & products
+  },
+
+  //TODO: check!? endpoint to see all categories & products
   getAllProductsAndCategories(req, res) {
     Category.findAll({
       include: [Product],
@@ -43,12 +48,16 @@ const CategoryController = {
         console.error(err);
         res.status(500).send(err);
       });
-  }, // endpoint to return a category by id
+  },
+
+  // endpoint to return a category by id
   getCategoryById(req, res) {
     Category.findByPk(req.params.id, {
       include: [User], //TODO: it is ok?!
     }).then(category => res.send(category));
-  }, // filter to search category by name
+  },
+
+  // filter to search category by name
   getOneCategoryByName(req, res) {
     Post.findOne({
       where: {
