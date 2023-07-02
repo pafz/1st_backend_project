@@ -1,4 +1,4 @@
-const { User } = require('../models/index');
+const { User, Product } = require('../models/index');
 
 const UserController = {
   create(req, res) {
@@ -8,6 +8,16 @@ const UserController = {
         res.status(201).send({ message: 'User created successfully!', user })
       )
       .catch(console.error);
+  },
+  getAll(res, res) {
+    User.findAll({ include: [Product] })
+      .then(users => res.send(users))
+      .catch(err => {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: 'There was a problem loading products' });
+      });
   },
 };
 
