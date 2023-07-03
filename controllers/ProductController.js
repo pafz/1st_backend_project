@@ -1,21 +1,32 @@
-const { Product, User } = require('../models/index');
-const product = require('../models/product');
+const { Product, User, Sequelize } = require('../models/index');
+const { Op } = Sequelize;
+//TODO: Why Op?????
 
 const ProductController = {
-  create(res, res) {
-    Product.create(req.body).then(post =>
-      res.status(201).send({ message: 'Product insert successfully!', product })
-    );
+  //async by chat
+  async create(req, res) {
+    try {
+      const product = await Product.create(req.body);
+      res
+        .status(201)
+        .send({ message: 'Product insert successfully!', product });
+    } catch (error) {
+      console.error(error);
+    }
   },
 
-  //endpoint to update
+  //endpoint to update async con try catch
   async update(req, res) {
-    await Product.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.send('Product successfully updated');
+    try {
+      await Product.update(req.body, {
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send('Product successfully updated');
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   // endpoint to delete
@@ -45,22 +56,47 @@ const ProductController = {
       });
   },
 
-  getById(req, res) {
-    Product.findByIdPk(req.param.id, {
-      include: [User],
-    }).then(product => res.send(product));
+  //chat:
+  async getById(req, res) {
+    try {
+      const product = await Product.findByPk(req.params.id);
+      res.send(product);
+    } catch (error) {
+      console.error(error);
+    }
   },
 
-  getOneByName(req, res) {
-    Product.findAll({
-      where: {
-        name: {
-          [Op.like]: `% ${req.params.id} %`,
+  // getById(req, res) {
+  //   Product.findByIdPk(req.param.id).then(product => res.send(product));
+  // },
+  //chat
+  async getOneByName(req, res) {
+    try {
+      const product = await Product.findOne({
+        where: {
+          name: {
+            [Op.like]: `% ${req.params.name} %`,
+          },
         },
-      },
-      include: [User],
-    }).then(product => res.send(product));
+        //include: [User],
+      });
+      res.send(product);
+    } catch (error) {
+      console.error(error);
+    }
   },
+
+  //TODO: first introduce a name an after, to search it
+  // getOneByName(req, res) {
+  //   Product.findOne({
+  //     where: {
+  //       name: {
+  //         [Op.like]: `% ${req.params.name} %`,
+  //       },
+  //     },
+  //     //include: [User],
+  //   }).then(product => res.send(product));
+  // },
 
   getOneByPrice(req, res) {
     Product.findAll({

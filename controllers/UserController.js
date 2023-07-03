@@ -8,7 +8,7 @@ const UserController = {
       )
       .catch(console.error);
   },
-  getAll(res, res) {
+  getAll(req, res) {
     User.findAll({ include: [Product] })
       .then(users => res.send(users))
       .catch(err => {

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/UserController'); //se autocompleta al escribir la línea 5
 
 router.post('/', UserController.create);
 router.get('/', UserController.getAll);
 
-nodule.exports = router;
+module.exports = router;

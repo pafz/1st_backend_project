@@ -8,7 +8,7 @@ module.exports = {
       {
         name: 'Twix',
         description: 'caramel and chocolate mixed with cookie or peanuts',
-        favourite: 'deliciosoel',
+        favourite: 'delicious',
         price: 1,
         category_id: '',
         createdAt: new Date(),
