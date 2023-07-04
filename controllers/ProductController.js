@@ -69,16 +69,15 @@ const ProductController = {
   // getById(req, res) {
   //   Product.findByIdPk(req.param.id).then(product => res.send(product));
   // },
-  //chat
+  //TODO: chat
   async getOneByName(req, res) {
     try {
       const product = await Product.findOne({
         where: {
           name: {
-            [Op.like]: `% ${req.params.name} %`,
+            [Op.like]: `%${req.params.name}%`,
           },
         },
-        //include: [User],
       });
       res.send(product);
     } catch (error) {
@@ -98,25 +97,35 @@ const ProductController = {
   //   }).then(product => res.send(product));
   // },
 
-  getOneByPrice(req, res) {
-    Product.findAll({
-      where: {
-        name: {
-          [Op.like]: `% ${req.params.price}%`,
+  //chat OK
+  async getOneByPrice(req, res) {
+    try {
+      const products = await Product.findOne({
+        where: {
+          price: {
+            [Op.like]: `%${req.params.price}%`,
+          },
         },
-      },
-      include: [User],
-    }).then(product => res.send(product));
+      });
+      res.send(products);
+    } catch (error) {
+      console.error(error);
+    }
   },
 
-  //TODO: check if it is ok
-  getDescByPrice(req, res) {
-    Product.findAll({
-      where: {
+  //TODO: check if it is ok NECESSARY TO TAKE DE param
+  async getDescByPrice(req, res) {
+    try {
+      const products = await Product.findAll({
         order: [['price', 'DESC']],
-      },
-    });
-  }, //TODO: more exercises
+      });
+      res.send(products);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  //TODO: more exercises
 };
 
 module.exports = ProductController;
