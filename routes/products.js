@@ -6,7 +6,7 @@ router.post('/', ProductController.create);
 router.put('/:id', ProductController.update);
 router.delete('/:id', ProductController.delete);
 router.get('/getAll', ProductController.getAll);
-router.get('/getOneByName/:name', ProductController.getOneByName); //ok? or use findOne?
+router.get('/getOneByName/:name', ProductController.getOneByName);
 router.get('/getById/:id', ProductController.getById);
 router.get('/getOneByPrice/:price', ProductController.getOneByPrice);
 router.get('/getDescByPrice', ProductController.getDescByPrice);

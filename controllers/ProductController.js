@@ -1,6 +1,6 @@
 const { Product, User, Sequelize } = require('../models/index');
 const { Op } = Sequelize;
-//TODO: Why Op?????
+//User comming soon
 
 const ProductController = {
   //async by chat
@@ -10,8 +10,8 @@ const ProductController = {
       res
         .status(201)
         .send({ message: 'Product insert successfully!', product });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   },
 
@@ -24,8 +24,8 @@ const ProductController = {
         },
       });
       res.send('Product successfully updated');
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   },
 
@@ -38,13 +38,13 @@ const ProductController = {
         },
       });
       res.send('The product has been successfully removed');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send(error);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
     }
   },
 
-  // TODO: works?! endpoint to show products & categories
+  // TODO: works?! endpoint to show products & categories async!
   getAll(req, res) {
     Product.findAll({ include: [Categories] })
       .then(products => res.send(products))
@@ -61,8 +61,8 @@ const ProductController = {
     try {
       const product = await Product.findByPk(req.params.id);
       res.send(product);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   },
 
@@ -80,8 +80,8 @@ const ProductController = {
         },
       });
       res.send(product);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   },
 
@@ -108,8 +108,8 @@ const ProductController = {
         },
       });
       res.send(products);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   },
 
@@ -120,8 +120,8 @@ const ProductController = {
         order: [['price', 'DESC']],
       });
       res.send(products);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   },
 

@@ -1,19 +1,20 @@
-const { Category, Product } = require('../models/index');
+const { Category, Product, Sequelize } = require('../models/index');
 //const category = require('../models/category'); unnecessary?!
+const { Op } = Sequelize;
 
 const CategoryController = {
   //endpoint to create
-  create(req, res) {
-    Category.create(req.body)
-      .then(category =>
-        res
-          .status(201)
-          .send({ message: 'Category created successfully!', category })
-      )
-      .catch(console.error);
+  async create(req, res) {
+    try {
+      const category = await Category.create(req.body);
+      res
+        .status(201)
+        .send({ message: 'Category created successfully!', category });
+    } catch (err) {
+      console.error(err);
+    }
   },
 
-  //endpoint to update
   async update(req, res) {
     await Category.update(req.body, {
       where: {
@@ -23,7 +24,6 @@ const CategoryController = {
     res.send('Category successfully updated');
   },
 
-  // endpoint to delete
   async delete(req, res) {
     try {
       await Category.destroy({
@@ -50,23 +50,28 @@ const CategoryController = {
       });
   },
 
-  // endpoint to return a category by id
-  getCategoryById(req, res) {
-    Category.findByPk(req.params.id, {
-      include: [User], //TODO: it is ok?!
-    }).then(category => res.send(category));
+  async getCategoryById(req, res) {
+    try {
+      const category = await Category.findByPk(req.params.id);
+      res.send(category);
+    } catch (err) {
+      console.error(err);
+    }
   },
 
-  // filter to search category by name
-  getOneCategoryByName(req, res) {
-    Post.findOne({
-      where: {
-        name: {
-          [Op.like]: `%${req.params.title}%`,
+  async getOneCategoryByName(req, res) {
+    try {
+      const category = await Category.findOne({
+        where: {
+          name: {
+            [Op.like]: `%${req.params.name}%`,
+          },
         },
-      },
-      include: [User],
-    }).then(post => res.send(post));
+      });
+      res.send(category);
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 

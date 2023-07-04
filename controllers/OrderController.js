@@ -13,13 +13,13 @@ const OrderController = {
       });
   },
 
-  create(req, res) {
-    Order.create(req.body).then(order =>
-      res
-        .status(201)
-        .send({ message: 'Order created successfully!' })
-        .catch(console.error)
-    );
+  async createOrder(req, res) {
+    try {
+      const order = await Order.create(req.body);
+      res.status(201).send({ message: 'Order created successfully!', order });
+    } catch (err) {
+      console.error(err);
+    }
   },
 };
 
