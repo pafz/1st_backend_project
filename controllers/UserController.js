@@ -1,4 +1,4 @@
-const { User, Product } = require('../models/index');
+const { User, Product, Token } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development'];
@@ -47,6 +47,7 @@ const UserController = {
           .send({ message: 'Usuario o contraseña incorrectos' });
       }
       const token = jwt.sign({ id: user.id }, jwt_secret);
+      Token.create({ token, UserId: user.id });
       res.send(user);
     } catch (error) {
       // Handle any errors that occurred during the process
