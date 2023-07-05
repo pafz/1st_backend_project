@@ -1,7 +1,8 @@
-const { User, Product, Token } = require('../models/index');
+const { User, Product, Token, Sequelize } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development'];
+const { Op } = Sequelize;
 
 const UserController = {
   async create(req, res) {
@@ -15,7 +16,7 @@ const UserController = {
   },
 
   getAll(req, res) {
-    User.findAll({ include: [Product] })
+    User.findAll()
       .then(users => res.send(users))
       .catch(err => {
         console.log(err);
@@ -29,30 +30,44 @@ const UserController = {
     try {
       const user = await User.findOne({
         where: {
-          email: req.body.email,
+          mail: req.body.mail,
         },
       });
 
       if (!user) {
-        return res
-          .status(400)
-          .send({ message: 'Usuario o contraseña incorrectos' });
+        return res.status(400).send({ message: 'User or password incorrects' });
       }
 
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
 
       if (!isMatch) {
-        return res
-          .status(400)
-          .send({ message: 'Usuario o contraseña incorrectos' });
+        return res.status(400).send({ message: 'User or password incorrects' });
       }
       const token = jwt.sign({ id: user.id }, jwt_secret);
       Token.create({ token, UserId: user.id });
-      res.send(user);
+      res.send({ token, user });
     } catch (error) {
       // Handle any errors that occurred during the process
       console.error(error);
       res.status(500).send({ message: 'Error during login' });
+    }
+  },
+  async logout(req, res) {
+    try {
+      await Token.destroy({
+        where: {
+          [Op.and]: [
+            { UserId: req.user.id },
+            { token: req.headers.authorization },
+          ],
+        },
+      });
+      res.send({ message: 'Successfully logout!' });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .send({ message: 'there was a problem trying to disconnect you' });
     }
   },
 };
