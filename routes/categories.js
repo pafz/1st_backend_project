@@ -5,6 +5,11 @@ const { authentication, isAdmin } = require('../middleware/authentication');
 
 router.post('/create', authentication, CategoryController.create);
 router.put('/update/id/:id', authentication, CategoryController.update);
+router.get(
+  '/getAllProductsAndCategories',
+  authentication,
+  CategoryController.getAllProductsAndCategories
+);
 router.delete(
   '/delete/id/:id',
   authentication,

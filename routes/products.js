@@ -19,5 +19,9 @@ router.get(
   ProductController.getOneByPrice
 );
 router.get('/getDescByPrice', authentication, ProductController.getDescByPrice);
+router.get(
+  '/getProductsAndCategories',
+  ProductController.getProductsAndCategories
+);
 
 module.exports = router;

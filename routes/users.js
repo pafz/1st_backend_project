@@ -5,6 +5,11 @@ const { authentication, isAdmin } = require('../middleware/authentication'); //n
 
 router.post('/', authentication, UserController.create);
 router.get('/', authentication, UserController.getAll);
+router.get(
+  '/getUserOrdersProducts',
+  authentication,
+  UserController.getUserOrdersProducts
+);
 router.post('/login', UserController.login);
 router.delete('/logout', authentication, UserController.logout);
 

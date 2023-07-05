@@ -1,17 +1,28 @@
-const { Order } = require('../models/index');
+const { Order, Category } = require('../models/index');
 
 const OrderController = {
-  //TODO: order INNER JOIN?
-  getAll(req, res) {
-    Order.findAll({
-      include: [User],
-    })
-      .then(posts => res.send(posts))
-      .catch(err => {
-        console.error(err);
-        res.status(500).send(err);
+  //Crea un endpoint para ver los pedidos junto a los productos que tienen
+  async getOrdersAndProducts(req, res) {
+    try {
+      const ordersProducts = await Order.findAll({
+        include: [
+          {
+            model: Category,
+            attributes: ['name'],
+            through: { attributes: [] },
+          },
+        ],
       });
+      res.send({
+        message: 'Orders and products shown successfully!',
+        ordersProducts,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('There was a problem loading orders and products');
+    }
   },
+  //
 
   async createOrder(req, res) {
     try {

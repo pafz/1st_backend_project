@@ -1,6 +1,7 @@
-const { Product, User, Sequelize } = require('../models/index');
+const { Product, User, Category, Sequelize } = require('../models/index');
 const { Op } = Sequelize;
 //User comming soon
+//Category ok? en require
 
 const ProductController = {
   //async by chat
@@ -85,19 +86,6 @@ const ProductController = {
     }
   },
 
-  //TODO: first introduce a name an after, to search it
-  // getOneByName(req, res) {
-  //   Product.findOne({
-  //     where: {
-  //       name: {
-  //         [Op.like]: `% ${req.params.name} %`,
-  //       },
-  //     },
-  //     //include: [User],
-  //   }).then(product => res.send(product));
-  // },
-
-  //chat OK
   async getOneByPrice(req, res) {
     try {
       const products = await Product.findOne({
@@ -124,8 +112,32 @@ const ProductController = {
       console.error(err);
     }
   },
+  //El endpoint de traer productos debe mostrarse junto a la categoría o categorías que pertenece
+  //TODO: error mín 1:14' DUDA para 6 de julio
+  async getProductsAndCategories(req, res) {
+    try {
+      const productsCategories = await Product.findAll({
+        include: [
+          {
+            model: Category,
+            attributes: ['name'],
+            through: { attributes: [] },
+          },
+        ],
+      });
+      res.send({
+        message: 'Products and categories shown successfully!',
+        productsCategories,
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .send('There was a problem loading products and categories');
+    }
+  },
 
-  //TODO: more exercises
+  //TODO: more exercises.
 };
 
 module.exports = ProductController;

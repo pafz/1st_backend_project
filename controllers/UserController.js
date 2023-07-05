@@ -1,4 +1,4 @@
-const { User, Product, Token, Sequelize } = require('../models/index');
+const { User, Product, Order, Token, Sequelize } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { jwt_secret } = require('../config/config.json')['development'];
@@ -68,6 +68,25 @@ const UserController = {
       res
         .status(500)
         .send({ message: 'there was a problem trying to disconnect you' });
+    }
+  },
+  //Endpoint que nos traiga la información del usuario conectado junto a los pedidos que tiene y los productos que contiene cada pedido
+  async getUserOrdersProducts(req, res) {
+    try {
+      const userOrdersProducts = await User.findAll({
+        include: [Order],
+        // include: [Product],
+      });
+      res.send({
+        message:
+          'Users, orders and products and categories shown successfully!',
+        userOrdersProducts,
+      });
+    } catch (err) {
+      console.error(err);
+      res
+        .status(500)
+        .send('There was a problem loading user, orders or categories');
     }
   },
 };
