@@ -4,10 +4,12 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.use('/users', require('./routes/users'));
-app.use('/products', require('./routes/products'));
 app.use('/categories', require('./routes/categories'));
+app.use('/companies', require('./routes/companies'));
+app.use('/deliveries', require('./routes/deliveries'));
 app.use('/orders', require('./routes/orders'));
+app.use('/products', require('./routes/products'));
+app.use('/users', require('./routes/users'));
 
 app.listen(PORT, () => console.log('Server up on port ' + PORT));
 //TODO:!add every status in controllers

@@ -8,7 +8,7 @@ const UserController = {
   async create(req, res) {
     try {
       const password = bcrypt.hashSync(req.body.password, 10);
-      const user = User.create({ ...req.body, password });
+      const user = await User.create({ ...req.body, password });
       res.status(201).send({ message: 'User created successfully!', user });
     } catch (err) {
       console.error(err);
@@ -52,6 +52,7 @@ const UserController = {
       res.status(500).send({ message: 'Error during login' });
     }
   },
+
   async logout(req, res) {
     try {
       await Token.destroy({
@@ -70,12 +71,16 @@ const UserController = {
         .send({ message: 'there was a problem trying to disconnect you' });
     }
   },
+
   //Endpoint que nos traiga la información del usuario conectado junto a los pedidos que tiene y los productos que contiene cada pedido
   async getUserOrdersProducts(req, res) {
     try {
-      const userOrdersProducts = await User.findAll({
-        include: [Order],
-        // include: [Product],
+      const userOrdersProducts = await User.findByPk(req.params.id, {
+        include: {
+          model: Order,
+          include: Product,
+        },
+        //include: [{ Order, attributes: ['name'], through: { attributes: [] } }], no funciona porque User no tiene Id con Products, por lo que hay que utilizar model
       });
       res.send({
         message:

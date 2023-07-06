@@ -6,7 +6,7 @@ const { authentication, isAdmin } = require('../middleware/authentication');
 router.post('/', authentication, ProductController.create);
 router.put('/:id', authentication, ProductController.update);
 router.delete('/:id', authentication, isAdmin, ProductController.delete);
-router.get('/getAll', authentication, ProductController.getAll);
+//router.get('/getAll', authentication, ProductController.getAll);
 router.get(
   '/getOneByName/:name',
   authentication,
@@ -20,8 +20,8 @@ router.get(
 );
 router.get('/getDescByPrice', authentication, ProductController.getDescByPrice);
 router.get(
-  '/getProductsAndCategories',
-  ProductController.getProductsAndCategories
+  '/getAllProductsAndCategories',
+  ProductController.getAllProductsAndCategories
 );
 
 module.exports = router;

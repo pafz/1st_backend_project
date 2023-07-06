@@ -7,25 +7,25 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      product_order_id: {
-        type: Sequelize.INTEGER
+      ProductId: {
+        type: Sequelize.INTEGER,
       },
-      order_product_id: {
-        type: Sequelize.INTEGER
+      OrderId: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('OrderProducts');
-  }
+  },
 };

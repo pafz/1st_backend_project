@@ -3,7 +3,7 @@ const router = express.Router();
 const UserController = require('../controllers/UserController'); //autocompletes when typing line 5
 const { authentication, isAdmin } = require('../middleware/authentication'); //not using isAdmin
 
-router.post('/', authentication, UserController.create);
+router.post('/', UserController.create);
 router.get('/', authentication, UserController.getAll);
 router.get(
   '/getUserOrdersProducts',

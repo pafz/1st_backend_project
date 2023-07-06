@@ -38,14 +38,13 @@ const CategoryController = {
     }
   },
 
-  //TODO: check!? endpoint to see all categories & products
-  async getAllProductsAndCategories(req, res) {
+  async getAllCategoriesAndProducts(req, res) {
     try {
       const productsAndCategoriesAll = await Category.findAll({
         include: [Product],
       });
       res.send(productsAndCategoriesAll);
-    } catch (error) {
+    } catch (err) {
       console.error(err);
       res.status(500).send(err);
     }

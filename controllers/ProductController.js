@@ -45,16 +45,16 @@ const ProductController = {
     }
   },
 
-  // TODO: works?! endpoint to show products & categories async!
-  getAll(req, res) {
-    Product.findAll({ include: [Categories] })
-      .then(products => res.send(products))
-      .catch(err => {
-        console.log(err);
-        res
-          .status(500)
-          .send({ message: 'There is a problem to load products' });
+  async getAllProductsAndCategories(req, res) {
+    try {
+      const productsAndCategoriesAll = await Product.findAll({
+        include: [Category],
       });
+      res.send(productsAndCategoriesAll);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
   },
 
   //chat:
@@ -67,10 +67,6 @@ const ProductController = {
     }
   },
 
-  // getById(req, res) {
-  //   Product.findByIdPk(req.param.id).then(product => res.send(product));
-  // },
-  //TODO: chat
   async getOneByName(req, res) {
     try {
       const product = await Product.findOne({
@@ -101,7 +97,6 @@ const ProductController = {
     }
   },
 
-  //TODO: check if it is ok NECESSARY TO TAKE DE param
   async getDescByPrice(req, res) {
     try {
       const products = await Product.findAll({
