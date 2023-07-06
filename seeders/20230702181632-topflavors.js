@@ -1,43 +1,47 @@
 'use strict';
 //TODO: created but not -> sequelize db:seed:all
-//TODO: what to put in category_id? shouldn't it be autocomplete?
+//TODO: check if all fields name are OK on the tbl
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Users', [
+    return queryInterface.bulkInsert('Products', [
       {
         name: 'Twix',
         description: 'caramel and chocolate mixed with cookie or peanuts',
-        favourite: 'delicious',
+        favorite: 'delicious',
         price: 1,
-        category_id: '',
+        UserId: 1,
+        CategoryId: 5,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: 'M&Ms',
         description: 'milk chocolate, dark chocolate and pretzel',
-        favourite: 'ddeliciosoel',
+        favorite: 'ddeliciosoel',
         price: 0.99,
-        category_id: '',
+        UserId: 1,
+        CategoryId: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: 'Kit Kat',
         description: 'crunchy and creamy and so easy to share',
-        favourite: 'crunchy',
+        favorite: 'crunchy',
         price: 1.2,
-        category_id: '',
+        UserId: 1,
+        CategoryId: 3,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         name: 'Mars',
         description: 'a chocolate bar with malted milk and caramel',
-        favourite: 'sweet',
+        favorite: 'sweet',
         price: 1.1,
-        category_id: '',
+        UserId: 1,
+        CategoryId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -45,9 +49,10 @@ module.exports = {
         name: 'Kinder',
         description:
           'two crispy wafer bars with a creamy milk and hazelnut filling and delicious milk chocolate',
-        favourite: 'tasty',
+        favorite: 'tasty',
         price: 1,
-        category_id: '',
+        UserId: 1,
+        CategoryId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
