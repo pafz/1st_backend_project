@@ -67,9 +67,6 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING(64),
         allowNull: false,
-        // validate: {
-        //   is: /^[0-9a-f]{64}$/i,
-        // },
       },
 
       role: {
@@ -80,8 +77,8 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Please, insert a role.',
           },
           isIn: {
-            args: [['user', 'guest', 'kid', 'admin']],
-            msg: 'Please, insert a role user / guest / kid / admin.',
+            args: [['user', 'guest', 'kid']],
+            msg: 'Please, insert a role user / guest / kid.',
           },
         },
       },

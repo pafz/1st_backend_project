@@ -12,5 +12,6 @@ router.get(
 );
 router.post('/login', UserController.login);
 router.delete('/logout', authentication, UserController.logout);
+router.get('/confirm/:mailToken', UserController.confirm);
 
 module.exports = router;
