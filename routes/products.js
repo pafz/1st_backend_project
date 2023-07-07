@@ -3,8 +3,8 @@ const router = express.Router();
 const ProductController = require('../controllers/ProductController');
 const { authentication, isAdmin } = require('../middleware/authentication');
 
-router.post('/', authentication, ProductController.create);
-router.put('/:id', authentication, ProductController.update);
+router.post('/', authentication, isAdmin, ProductController.create);
+router.put('/:id', authentication, isAdmin, ProductController.update);
 router.delete('/:id', authentication, isAdmin, ProductController.delete);
 //router.get('/getAll', authentication, ProductController.getAll);
 router.get(

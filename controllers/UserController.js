@@ -5,13 +5,14 @@ const { jwt_secret } = require('../config/config.json')['development'];
 const { Op } = Sequelize;
 
 const UserController = {
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const password = bcrypt.hashSync(req.body.password, 10);
       const user = await User.create({ ...req.body, password });
       res.status(201).send({ message: 'User created successfully!', user });
     } catch (err) {
       console.error(err);
+      next(err);
     }
   },
 
@@ -26,7 +27,7 @@ const UserController = {
       });
   },
 
-  async login(req, res) {
+  async login(req, res, next) {
     try {
       const user = await User.findOne({
         where: {
@@ -50,6 +51,7 @@ const UserController = {
       // Handle any errors that occurred during the process
       console.error(error);
       res.status(500).send({ message: 'Error during login' });
+      next(error);
     }
   },
 

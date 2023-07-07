@@ -11,15 +11,82 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Order);
     }
   }
+  // Validations:
   User.init(
     {
-      name: DataTypes.STRING,
-      bday: DataTypes.DATE,
-      gender: DataTypes.STRING,
-      mail: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert your name.',
+          },
+        },
+      },
+
+      bday: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert your birthday.',
+          },
+          isDate: {
+            msg: 'Please, insert a correct date.',
+          },
+        },
+      },
+
+      gender: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert your gender.',
+          },
+          isIn: {
+            args: [['F', 'M', 'none']],
+            msg: 'Please, insert a genre F/ M / none.',
+          },
+        },
+      },
+
+      mail: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert your mail.',
+          },
+          isEmail: {
+            msg: 'Please, insert a correct mail.',
+          },
+        },
+      },
+
+      password: {
+        type: DataTypes.STRING(64),
+        allowNull: false,
+        // validate: {
+        //   is: /^[0-9a-f]{64}$/i,
+        // },
+      },
+
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a role.',
+          },
+          isIn: {
+            args: [['user', 'guest', 'kid', 'admin']],
+            msg: 'Please, insert a role user / guest / kid / admin.',
+          },
+        },
+      },
     },
+
     {
       sequelize,
       modelName: 'User',

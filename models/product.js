@@ -12,12 +12,64 @@ module.exports = (sequelize, DataTypes) => {
 
   Product.init(
     {
-      name: DataTypes.STRING,
-      description: DataTypes.STRING,
-      favorite: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      UserId: DataTypes.INTEGER,
-      CategoryId: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s name.',
+          },
+        },
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s description.',
+          },
+        },
+      },
+      favorite: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s favorite.',
+          },
+          isIn: {
+            args: [['delicious', 'crunchy', 'sweet', 'tasty']],
+            msg: 'Please, insert a genre delicious/ crunchy / sweet / tasty.',
+          },
+        },
+      },
+      price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s price.',
+          },
+        },
+      },
+      UserId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s UserId.',
+          },
+        },
+      },
+      CategoryId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Please, insert a product`s CategoryId.',
+          },
+        },
+      },
     },
     {
       sequelize,

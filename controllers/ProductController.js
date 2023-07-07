@@ -5,7 +5,7 @@ const { Op } = Sequelize;
 
 const ProductController = {
   //async by chat
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const product = await Product.create(req.body);
       res
@@ -13,6 +13,7 @@ const ProductController = {
         .send({ message: 'Product insert successfully!', product });
     } catch (err) {
       console.error(err);
+      next(err);
     }
   },
 
