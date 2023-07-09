@@ -2,74 +2,26 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
+      // define association here
       Product.belongsToMany(models.Order, {
         through: models.OrderProduct,
       });
       Product.belongsTo(models.Category);
     }
   }
-
   Product.init(
     {
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s name.',
-          },
-        },
-      },
-      description: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s description.',
-          },
-        },
-      },
-      favorite: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s favorite.',
-          },
-          isIn: {
-            args: [['delicious', 'crunchy', 'sweet', 'tasty']],
-            msg: 'Please, insert a genre delicious/ crunchy / sweet / tasty.',
-          },
-        },
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s price.',
-          },
-        },
-      },
-      UserId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s UserId.',
-          },
-        },
-      },
-      CategoryId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: 'Please, insert a product`s CategoryId.',
-          },
-        },
-      },
+      name: DataTypes.STRING,
+      description: DataTypes.STRING,
+      favorite: DataTypes.STRING,
+      price: DataTypes.INTEGER,
+      CategoryId: DataTypes.INTEGER,
     },
     {
       sequelize,

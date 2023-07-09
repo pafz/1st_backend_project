@@ -40,15 +40,14 @@ const UserController = {
     }
   },
 
-  getAll(req, res) {
-    User.findAll()
-      .then(users => res.send(users))
-      .catch(err => {
-        console.log(err);
-        res
-          .status(500)
-          .send({ message: 'There was a problem loading products' });
-      });
+  async getAll(req, res) {
+    try {
+      const users = await User.findAll();
+      res.send({ msg: 'There you are all the users', users });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send({ message: 'There was a problem loading users' });
+    }
   },
 
   async login(req, res, next) {
