@@ -8,12 +8,12 @@ const OrderController = {
         include: [Product],
       });
       res.send({
-        message: 'Orders and products shown successfully!',
+        message: 'Orders and products are shown successfully!',
         ordersProducts,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).send('There was a problem loading orders and products');
+      res.status(500).send('There was a problem loading orders or products');
     }
   },
 

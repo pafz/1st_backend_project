@@ -24,14 +24,14 @@ const CategoryController = {
     res.send('Category successfully updated');
   },
 
-  async delete(req, res) {
+  async deleteCategory(req, res) {
     try {
       await Category.destroy({
         where: {
           id: req.params.id,
         },
       });
-      res.send('The publication has been successfully removed');
+      res.send('The category has been successfully removed');
     } catch (error) {
       console.error(error);
       res.status(500).send(error);

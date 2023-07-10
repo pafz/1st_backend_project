@@ -40,16 +40,6 @@ const UserController = {
     }
   },
 
-  async getAll(req, res) {
-    try {
-      const users = await User.findAll();
-      res.send({ msg: 'There you are all the users', users });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send({ message: 'There was a problem loading users' });
-    }
-  },
-
   async login(req, res, next) {
     try {
       const user = await User.findOne({
@@ -71,42 +61,19 @@ const UserController = {
       Token.create({ token, UserId: user.id });
       res.send({ token, user });
     } catch (error) {
-      // Handle any errors that occurred during the process
       console.error(error);
       res.status(500).send({ message: 'Error during login' });
       next(error);
     }
   },
 
-  async logout(req, res) {
-    try {
-      await Token.destroy({
-        where: {
-          [Op.and]: [
-            { UserId: req.user.id },
-            { token: req.headers.authorization },
-          ],
-        },
-      });
-      res.send({ message: 'Successfully logout!' });
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .send({ message: 'there was a problem trying to disconnect you' });
-    }
-  },
-
-  //Endpoint que nos traiga la información del usuario conectado junto a los pedidos que tiene y los productos que contiene cada pedido
   async getUserOrdersProducts(req, res) {
     try {
-      //TODO: DIFF req.user. check how it works
       const userOrdersProducts = await User.findByPk(req.user.id, {
         include: {
           model: Order,
           include: Product,
         },
-        //include: [{ Order, attributes: ['name'], through: { attributes: [] } }], no funciona porque User no tiene Id con Products, por lo que hay que utilizar model
       });
       res.send({
         message:
@@ -140,25 +107,25 @@ const UserController = {
       console.error(error);
     }
   },
+
+  async logout(req, res) {
+    try {
+      await Token.destroy({
+        where: {
+          [Op.and]: [
+            { UserId: req.user.id },
+            { token: req.headers.authorization },
+          ],
+        },
+      });
+      res.send({ message: 'Successfully logout!' });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .send({ message: 'There was a problem trying to disconnect you' });
+    }
+  },
 };
 
 module.exports = UserController;
-
-/* URL when click the mail link
-all:
-<a href="http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhZmVyemEuZGV2b3BzQGdtYWlsLmNvbSIsImlhdCI6MTY4ODc1MTg3OCwiZXhwIjoxNjg4OTI0Njc4fQ.fP2kAvUewRrgPpW7Plk5n8oEItMkyTwQUEQsfJTyGJ0" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhZmVyemEuZGV2b3BzQGdtYWlsLmNvbSIsImlhdCI6MTY4ODc1MTg3OCwiZXhwIjoxNjg4OTI0Njc4fQ.fP2kAvUewRrgPpW7Plk5n8oEItMkyTwQUEQsfJTyGJ0&amp;source=gmail&amp;ust=1688838356459000&amp;usg=AOvVaw1rT2lE2tNmsUErMdRCiCG1">Click to confirm</a>
-
-part 1:
-http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhZmVyemEuZGV2b3BzQGdtYWlsLmNvbSIsImlhdCI6MTY4ODc1MTg3OCwiZXhwIjoxNjg4OTI0Njc4fQ.fP2kAvUewRrgPpW7Plk5n8oEItMkyTwQUEQsfJTyGJ0
-
-part 2:
-http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhZmVyemEuZGV2b3BzQGdtYWlsLmNvbSIsImlhdCI6MTY4ODc1MTg3OCwiZXhwIjoxNjg4OTI0Njc4fQ.fP2kAvUewRrgPpW7Plk5n8oEItMkyTwQUEQsfJTyGJ0&amp;source=gmail&amp;ust=1688838356459000&amp;usg=AOvVaw1rT2lE2tNmsUErMdRCiCG1
-
------
-all:
-https://www.google.com/url?q=http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoicGFmZXJ6YS5kZXZvcHNAZ21haWwuY29tIiwiaWF0IjoxNjg4NzUzNjA5LCJleHAiOjE2ODg5MjY0MDl9.xEPO5jnyX_Pnk29uuriMlC07sz031ZE1sf5SHT0GuaE&source=gmail&ust=1688840039674000&usg=AOvVaw2aEQ8Kz_5hQ-316N3KKNNp
-
-http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoicGFmZXJ6YS5kZXZvcHNAZ21haWwuY29tIiwiaWF0IjoxNjg4NzUzNjA5LCJleHAiOjE2ODg5MjY0MDl9.xEPO5jnyX_Pnk29uuriMlC07sz031ZE1sf5SHT0GuaE&source=gmail&ust=1688840039674000&usg=AOvVaw2aEQ8Kz_5hQ-316N3KKNNp
-
-http://localhost:3000/users/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoicGFmZXJ6YS5kZXZvcHNAZ21haWwuY29tIiwiaWF0IjoxNjg4NzUzNjA5LCJleHAiOjE2ODg5MjY0MDl9.xEPO5jnyX_Pnk29uuriMlC07sz031ZE1sf5SHT0GuaE
-*/

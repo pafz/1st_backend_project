@@ -1,13 +1,13 @@
-# Quiz - Ejercicio
+# BACKEND - Ejercicio
 
 <a name="top"></a>
 
  <h3 align="center">1st BACKEND PROJECT</h3>
 
   <p align="center">
-    Ejercicio realizado durante la séptima semana del bootcamp para poner en práctica toda la teoría explicada durante la semana anterior en las tecnologías node + express, además de mysql/sequelize. <a href="https://opentdb.com/">https://opentdb.com/</a>. El proyecto consiste en una estructura de tienda online(e-commerce) denominada <i>Candy</i>.
+    Ejercicio realizado durante la séptima semana del bootcamp para poner en práctica toda la teoría explicada durante la semana anterior en las tecnologías node + express, además de mysql/sequelize. <a href="https://opentdb.com/">https://opentdb.com/</a>. Profesora Sofía Pinilla. El proyecto consiste en una estructura de tienda online(e-commerce) denominada <i>Candy</i>.
 
-    <br />
+  <br/>
     <a href="https://github.com/pafz/quiz"><strong>Uso de node + express y mysql/sequelize</strong></a>
     <br />
     ·
@@ -59,7 +59,7 @@ En este proyecto se repasa todo lo aprendido a lo largo de una semana sobre node
 
 ## Sobre el proyecto
 
-En este proyecto se desarrolla una página web SPA que consta de 3 tipos de vistas. La primera es de <i>Bienvenidaen</i> en la que se visualiza la grafíca del histórico de puntos y se muestra el botón para comenzar el juego. l
+En este proyecto implementa Sequelize ENUMERAR RESTO DE LOS TEMAS <i>Bienvenidaen</i> en la que se visualiza la grafíca del histórico de puntos y se muestra el botón para comenzar el juego. l
 
 Cada pregunta con sus cuatro respuestas se muentran de forma individual. A través de un botón se selecciona una única opción y justo despúes todos los botones de respuestas serán bloqueados. Durante 1 segundo a través de un <i>setTimeOut</i> se visualizará en color verde el texto del botón en caso de ser correcta, o por el contrario en color rojo en caso de ser incorrecta. Después de ese 1 segundo pasa a la siguiente pregunta de forma automática hasta llegar a la última pregunta.
 
@@ -68,18 +68,74 @@ Una vez finalizadas las preguntas se mostrará el resultado de ese Quiz recién 
 ### Views
 
 <views>
-  <ol>
-    <li>Product
-        <ol>
-            <li>CRUD productos
-                <ol>Endpoint para crear un producto</ol>
-                <ol>Endpoint para actualizar un producto</ol>
-            </li>
-        </lo>
-    </li>
-    <li>Questions [0, ,,,,,, ,9]</a></li>
-    <li>Score</a></li>
-  </ol>
+      <ol>
+        <li>
+          <strong>Product</strong>
+          <ul>
+            CRUD productos
+            <li>Endpoint para crear un producto - solo admin</li>
+            <li>Endpoint para actualizar un producto - solo admin</li>
+            <li>Endpoint para eliminar un producto - solo admin</li>
+            <li>Endpoint para traer todos productos y que muestre los productos junto a sus categorías y sus reviews</li>
+          </ul>
+          <ul style="list-style-type:square">
+            <li>Endpoint que traiga un producto por su id y que muestre los productos junto a sus categorías y sus reviews</li>
+            <li>Filtro para buscar producto por nombre</li>
+            <li>Filtro para buscar producto por precio</li>
+            <li>Filtro que ordene los productos de mayor a menor precio</li>
+            <li><strong>Validación:</strong> Implementa validación a la hora de crear un producto para que se rellene todos los campos y si no se hace que devuelva un mensaje</li>
+            <li><strong>Autentificado:</strong> Solo podrás crear, actualizar y eliminar productos si estás autenticado.</li>
+        </ul>
+        </li>
+        <li>
+          <strong>Category</strong>
+          <ul>
+            CRUD categorías
+            <li>Endpoint para crear un categoría</li>
+            <li>Endpoint para actualizar un categoría</li>
+            <li>Endpoint para eliminar un categoría</li>
+            <li>Endpoint para ver todas las categorías junto a los productos que tienen</li>
+          </ul>
+          <ul style="list-style-type:square">
+            <li>Crea un endpoint que devuelva una categoría por id</li>
+            <li>Filtro para buscar categoría por nombre</li>
+         </ul>
+         </li>
+         <li>
+         <strong>Order</strong>
+          <ul style="list-style-type:square">
+              <li>Crea un endpoint para ver los pedidos junto a los productos que tienen</li>
+              <li>Crea un endpoint para crear pedidos</li>
+          </ul>
+         </li>
+         <li>
+         <strong>User</strong>
+         <ul tyle="list-style-type:square">
+            <li>Endpoint para registrar un usuario utilizando <strong>bcrypt</strong></li>
+            <li>Endpoint para login(utilizando <strong>bcrypt +JWT</strong>)</li>
+            <li>Endpoint que nos traiga la información del usuario conectado junto a los pedidos que tiene y los productos que contiene cada pedido</li>
+            <li>Endpoint para el logout</li>
+            <li><strong>Validación.</strong> Implementa validación a la hora de crear un usuario para que se rellene todos los campos y si no se hace que devuelva un mensaje</li>
+            <li><strong>Mail.</strong> Tras registrarse recibe un mail de confirmación para su registro</li>
+          </ul>
+         </li>
+          <li>
+          <strong>Reviews</strong>
+          <ul>
+            CRUD opiniones
+            <li>Endpoint para crear un review</li>
+            <li>Endpoint para actualizar un review</li>
+            <li>Endpoint para eliminar un review</li>
+            <li>El endpoint de traer reviews debe mostrarlas junto al usuario UserId que hizo esa review</li>
+          </ul>
+         </li>
+         <li>
+         <strong>Seeders</strong>
+         <ul tyle="list-style-type:square">
+            <li>Crea 5 productos con un seeder</li>
+          </ul>
+         </li>
+
 </views>
 
 <p align="right">(<a href="README.md#top">volver al principio </a>)</p>
@@ -88,11 +144,10 @@ Una vez finalizadas las preguntas se mostrará el resultado de ese Quiz recién 
 
 ## Future Roadmap
 
-- [ ] Mobile first
-- [ ] Keep perfectioning styles to be funny
-- [ ] Add player's ranking and initials
-- [ ] Level up or be able to change the subject
-- [ ] Add countdown
+- [ ] Multer <a href="https://github.com/expressjs/multer/blob/master/doc/README-es.md" target="_blank">info</a> & <a href="https://www.webslesson.info/2022/05/upload-file-in-node-js-express-using-multer.html" target="_blank">HOW TO</a>
+- [ ] Frontend
+- [ ] More validations <a href="https://sequelize.org/docs/v6/core-concepts/validations-and-constraints/" target="_blank">Sequelize Validations & Constraints</a>
+- [ ] More associations <a href="https://sequelize.org/docs/v6/core-concepts/assocs/" target="_blank">Sequelize Associations</a>
 
 <p align="right">(<a href="README.md#top">volver al principio </a>)</p>
 
@@ -111,8 +166,6 @@ Este proyecto ha sido realizado como trabajo de aprendizaje por Patricia Fernán
 - General overview
 
 ![foto](./assets/img/candy.png)
-![foto](./imgs/quiz-question.png)
-![foto](./imgs/quiz-result.png)
 
 <!-- CONTACT -->
 
