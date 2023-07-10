@@ -15,9 +15,6 @@ module.exports = {
       UserId: {
         type: Sequelize.INTEGER,
       },
-      delivery_id: {
-        type: Sequelize.INTEGER,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

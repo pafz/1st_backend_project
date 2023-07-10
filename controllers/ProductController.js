@@ -1,4 +1,10 @@
-const { Product, User, Category, Sequelize } = require('../models/index');
+const {
+  Product,
+  User,
+  Category,
+  Review,
+  Sequelize,
+} = require('../models/index');
 const { Op } = Sequelize;
 //User comming soon
 //Category ok? en require
@@ -46,6 +52,7 @@ const ProductController = {
     }
   },
 
+  //FIXME: findAll rep, quedarme con uno!!!!
   async getAllProductsAndCategories(req, res) {
     try {
       const productsAndCategoriesAll = await Product.findAll({
@@ -58,10 +65,19 @@ const ProductController = {
     }
   },
 
-  //chat:
+  //Actualizar el endpoint de traer producto por id y que ahora muestre los productos junto a sus categorías y sus reviews
   async getById(req, res) {
     try {
-      const product = await Product.findByPk(req.params.id);
+      const product = await Product.findByPk(req.params.id, {
+        include: [
+          {
+            model: Review,
+          },
+          {
+            model: Category,
+          },
+        ],
+      });
       res.send(product);
     } catch (err) {
       console.error(err);
@@ -110,26 +126,27 @@ const ProductController = {
   },
   //El endpoint de traer productos debe mostrarse junto a la categoría o categorías que pertenece
   //TODO: error mín 1:14' DUDA para 6 de julio
-  async getProductsAndCategories(req, res) {
+  async getProductsCategoriesAndReviews(req, res) {
     try {
-      const productsCategories = await Product.findAll({
+      const productsCategoriesAndReviews = await Product.findAll({
         include: [
           {
+            model: Review,
+          },
+          {
             model: Category,
-            attributes: ['name'],
-            through: { attributes: [] },
           },
         ],
       });
       res.send({
-        message: 'Products and categories shown successfully!',
-        productsCategories,
+        message: 'Products, categories and reviews are shown successfully!',
+        productsCategoriesAndReviews,
       });
     } catch (err) {
       console.error(err);
       res
         .status(500)
-        .send('There was a problem loading products and categories');
+        .send('There was a problem loading products, categories or reviews.');
     }
   },
 

@@ -7,7 +7,12 @@ const { authentication } = require('../middleware/authentication');
 router.post('/createReview', ReviewController.create);
 //router.get('/getAllReviews', ReviewController.getAllReviews);
 
-router.get('/getReviewsAndUser/:id', ReviewController.getReviewsAndUser);
+router.get('/getReviewsAndUser', ReviewController.getReviewsAndUser);
+
+router.get(
+  '/getProductsCategoriesReviews',
+  ReviewController.getProductsCategoriesReviews
+);
 
 router.put('/updateReviewById/:id', ReviewController.updateReviewById);
 router.delete('/deleteReviewById/:id', ReviewController.deleteReviewById);

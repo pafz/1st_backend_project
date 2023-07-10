@@ -8,21 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //FIXME: is ok? the tbl is relational
-      //Review.belongsTo(models.OrderProduct);
-      //Review.hasOne(models.OrderProduct);
-      //FIXME:
-      Review.belongsToMany(models.Order, {
-        through: models.OrderProduct,
-      });
-      Review.belongsTo(models.OrderProduct);
+      // define association here
+      Review.belongsTo(models.Product);
+      Review.belongsTo(models.User);
     }
   }
   Review.init(
     {
       title: DataTypes.STRING,
       comment: DataTypes.STRING,
-      OrdersProductsId: DataTypes.INTEGER,
+      ProductId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
     },
     {
       sequelize,

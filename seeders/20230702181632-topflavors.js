@@ -1,5 +1,5 @@
 'use strict';
-//TODO: created but not -> sequelize db:seed:all
+//TODO:  -> sequelize db:seed:all
 //TODO: check if all fields name are OK on the tbl
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {

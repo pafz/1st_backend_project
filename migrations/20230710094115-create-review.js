@@ -15,7 +15,10 @@ module.exports = {
       comment: {
         type: Sequelize.STRING
       },
-      OrdersProductsId: {
+      ProductId: {
+        type: Sequelize.INTEGER
+      },
+      UserId: {
         type: Sequelize.INTEGER
       },
       createdAt: {

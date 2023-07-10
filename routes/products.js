@@ -12,7 +12,7 @@ router.get(
   authentication,
   ProductController.getOneByName
 );
-router.get('/getById/:id', authentication, ProductController.getById);
+router.get('/getById/:id', ProductController.getById);
 router.get(
   '/getOneByPrice/:price',
   authentication,
@@ -22,6 +22,11 @@ router.get('/getDescByPrice', authentication, ProductController.getDescByPrice);
 router.get(
   '/getAllProductsAndCategories',
   ProductController.getAllProductsAndCategories
+);
+
+router.get(
+  '/getProductsCategoriesAndReviews',
+  ProductController.getProductsCategoriesAndReviews
 );
 
 module.exports = router;

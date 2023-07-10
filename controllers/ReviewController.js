@@ -1,10 +1,4 @@
-const {
-  Review,
-  Product,
-  Order,
-  User,
-  OrderProduct,
-} = require('../models/index');
+const { Review, Product, Order, User, Category } = require('../models/index');
 
 const ReviewController = {
   async create(req, res) {
@@ -26,12 +20,16 @@ const ReviewController = {
   //El endpoint de traer reviews debe mostrarlas junto al usuario UserId que hizo esa review
   async getReviewsAndUser(req, res) {
     try {
-      const reviewsAndOrders = await Review.findByPk(req.params.id, {
-        include: {
-          model: OrderProduct,
-          model: Order,
-          include: User,
-        },
+      const reviewsAndOrders = await Review.findAll({
+        include: [
+          {
+            model: User,
+            attributes: ['name'],
+          },
+        ],
+        // include: [
+        //   { model: User, attributes: ['name'], through: { attributes: [] } }, through se pone cuando la relación en M : N. NO OLVIDAR model: _ _ _
+        // ],
       });
       res.send({
         message: 'Reviews and user are shown successfully!',
@@ -43,21 +41,22 @@ const ReviewController = {
     }
   },
 
-  //FIXME: example, to detele
-  async getUserOrdersProducts(req, res) {
+  //FIXME: not necessary
+  //traer todos productos y que ahora muestre los Productos junto a sus Categorías y sus Reviews
+  async getProductsCategoriesReviews(req, res) {
     try {
-      //TODO: DIFF req.user. check how it works
-      const userOrdersProducts = await User.findByPk(req.user.id, {
+      const productsCategoriesReviews = await Review.findAll({
         include: {
-          model: Order,
-          include: Product,
+          model: Product,
+          include: Category,
         },
         //include: [{ Order, attributes: ['name'], through: { attributes: [] } }], no funciona porque User no tiene Id con Products, por lo que hay que utilizar model
+        //a través del modelo product se incluye la Category, tbl que no está relacionada
       });
       res.send({
         message:
           'Users, orders and products and categories are shown successfully!',
-        userOrdersProducts,
+        productsCategoriesReviews,
       });
     } catch (err) {
       console.error(err);
