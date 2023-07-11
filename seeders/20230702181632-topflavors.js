@@ -1,6 +1,4 @@
 'use strict';
-//TODO:  -> sequelize db:seed:all
-//TODO: check if all fields name are OK on the tbl
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {

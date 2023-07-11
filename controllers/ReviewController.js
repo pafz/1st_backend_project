@@ -1,4 +1,4 @@
-const { Review, Product, Order, User, Category } = require('../models/index');
+const { Review, User } = require('../models/index');
 
 const ReviewController = {
   async create(req, res) {
@@ -17,7 +17,6 @@ const ReviewController = {
     }
   },
 
-  //El endpoint de traer reviews debe mostrarlas junto al usuario UserId que hizo esa review
   async getReviewsAndUser(req, res) {
     try {
       const reviewsAndOrders = await Review.findAll({
@@ -27,9 +26,6 @@ const ReviewController = {
             attributes: ['name'],
           },
         ],
-        // include: [
-        //   { model: User, attributes: ['name'], through: { attributes: [] } }, through se pone cuando la relación en M : N. NO OLVIDAR model: _ _ _
-        // ],
       });
       res.send({
         message: 'Reviews and user are shown successfully!',
@@ -40,42 +36,6 @@ const ReviewController = {
       res.status(500).send('There was a problem loading reviews or user');
     }
   },
-
-  //FIXME: not necessary
-  //traer todos productos y que ahora muestre los Productos junto a sus Categorías y sus Reviews
-  async getProductsCategoriesReviews(req, res) {
-    try {
-      const productsCategoriesReviews = await Review.findAll({
-        include: {
-          model: Product,
-          include: Category,
-        },
-        //include: [{ Order, attributes: ['name'], through: { attributes: [] } }], no funciona porque User no tiene Id con Products, por lo que hay que utilizar model
-        //a través del modelo product se incluye la Category, tbl que no está relacionada
-      });
-      res.send({
-        message:
-          'Users, orders and products and categories are shown successfully!',
-        productsCategoriesReviews,
-      });
-    } catch (err) {
-      console.error(err);
-      res
-        .status(500)
-        .send('There was a problem loading user, orders or categories');
-    }
-  },
-
-  //   CRUD Read
-  //   async getAllReviews(req, res) {
-  //     try {
-  //       const reviews = await Review.findAll();
-  //       res.send({ msg: 'There you are all the reviews', reviews });
-  //     } catch (err) {
-  //       console.error(err);
-  //       res.status(500).send({ message: 'There was a problem loading reviews' });
-  //     }
-  //   },
 
   async updateReviewById(req, res) {
     try {
