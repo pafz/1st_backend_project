@@ -6,7 +6,6 @@ const { authentication, isAdmin } = require('../middleware/authentication');
 router.post('/', authentication, isAdmin, ProductController.create);
 router.put('/:id', authentication, isAdmin, ProductController.update);
 router.delete('/:id', authentication, isAdmin, ProductController.delete);
-//router.get('/getAll', authentication, ProductController.getAll);
 router.get(
   '/getOneByName/:name',
   authentication,
