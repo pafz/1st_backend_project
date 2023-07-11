@@ -57,14 +57,6 @@ En este proyecto se repasa todo lo aprendido a lo largo de una semana sobre node
 
 <!-- ABOUT THE PROJECT -->
 
-## Sobre el proyecto
-
-En este proyecto implementa Sequelize ENUMERAR RESTO DE LOS TEMAS <i>Bienvenidaen</i> en la que se visualiza la grafíca del histórico de puntos y se muestra el botón para comenzar el juego. l
-
-Cada pregunta con sus cuatro respuestas se muentran de forma individual. A través de un botón se selecciona una única opción y justo despúes todos los botones de respuestas serán bloqueados. Durante 1 segundo a través de un <i>setTimeOut</i> se visualizará en color verde el texto del botón en caso de ser correcta, o por el contrario en color rojo en caso de ser incorrecta. Después de ese 1 segundo pasa a la siguiente pregunta de forma automática hasta llegar a la última pregunta.
-
-Una vez finalizadas las preguntas se mostrará el resultado de ese Quiz recién realizado junto con dos botones que realizarán la función de navegador para acceder a la vista <i>Home</i> o para <i>Reempezar</i> el juego.
-
 ### Views
 
 <views>
