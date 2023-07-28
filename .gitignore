@@ -1,3 +1,5 @@
 node_modules
 config/config.json
 nodemailer.js
+notes
+.DS_Store
