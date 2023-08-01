@@ -62,7 +62,6 @@ const UserController = {
       res.send({ token, user });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: 'Error during login' });
       next(error);
     }
   },
