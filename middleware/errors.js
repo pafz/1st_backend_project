@@ -16,6 +16,7 @@ const typeError = (err, req, res, next) => {
     return (err = handleValidationError(err, res));
   } else {
     res.status(500).send({ msg: 'Hubo un problema', err });
+    //HAY AQUÍ UN ERROR? QUITAR EL MIDDLE WEB PARA VER. CIBER
   }
 };
 

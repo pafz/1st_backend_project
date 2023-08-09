@@ -13,6 +13,7 @@ const UserController = {
         ...req.body,
         password,
         confirmed: false,
+        role: 'user',
       });
       const mailToken = jwt.sign({ mail: req.body.mail }, jwt_secret, {
         expiresIn: '48h',
@@ -28,12 +29,6 @@ const UserController = {
         message: 'User created successfully, please check your mail!',
         user,
       });
-
-      if (!user.confirmed) {
-        return res
-          .status(400)
-          .send({ message: 'You should confirm your mail' });
-      }
     } catch (err) {
       console.error(err);
       next(err);
@@ -47,6 +42,13 @@ const UserController = {
           mail: req.body.mail,
         },
       });
+
+      //Comented during development TODO: uncomment before release.
+      // if (!user.confirmed) {
+      //   return res
+      //     .status(400)
+      //     .send({ message: 'You should confirm your mail' });
+      // }
 
       if (!user) {
         return res.status(400).send({ message: 'User or password incorrects' });
@@ -63,6 +65,20 @@ const UserController = {
     } catch (error) {
       console.error(error);
       next(error);
+    }
+  },
+
+  //TODO: adapt it to getUser
+  async getUser(req, res) {
+    try {
+      const user = await User.findByPk(req.user.id);
+      res.send({
+        message: 'User shown successfully!',
+        user,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('There was a problem loading the user');
     }
   },
 

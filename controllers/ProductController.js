@@ -23,6 +23,17 @@ const ProductController = {
     }
   },
 
+  //TODO:
+  async getProducts(req, res) {
+    try {
+      const products = await Product.findAll();
+      res.send(products);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
+  },
+
   //endpoint to update async con try catch
   async update(req, res) {
     try {

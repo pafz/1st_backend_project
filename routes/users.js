@@ -10,6 +10,8 @@ router.get(
   authentication,
   UserController.getUserOrdersProducts
 );
+router.get('/getUser', authentication, UserController.getUser);
+
 router.get('/confirm/:mailToken', UserController.confirm);
 
 router.delete('/logout', authentication, UserController.logout);
