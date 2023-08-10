@@ -110,6 +110,21 @@ const ProductController = {
     }
   },
 
+  async getAllByName(req, res) {
+    try {
+      const products = await Product.findAll({
+        where: {
+          name: {
+            [Op.like]: `%${req.params.name}%`,
+          },
+        },
+      });
+      res.send(products);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   async getOneByPrice(req, res) {
     try {
       const products = await Product.findOne({

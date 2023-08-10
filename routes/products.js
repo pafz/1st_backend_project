@@ -12,7 +12,10 @@ router.get(
   authentication,
   ProductController.getOneByName
 );
+router.get('/getAllByName/:name', ProductController.getAllByName);
+
 router.get('/getById/:id', ProductController.getById);
+
 router.get(
   '/getOneByPrice/:price',
   authentication,
