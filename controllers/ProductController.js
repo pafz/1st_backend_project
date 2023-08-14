@@ -26,7 +26,24 @@ const ProductController = {
   //TODO:
   async getProducts(req, res) {
     try {
-      const products = await Product.findAll();
+      const where = {};
+
+      if (req.query.name) {
+        where.name = {
+          [Op.like]: `%${req.query.name}%`,
+        };
+      }
+
+      //if:
+      if (req.query.low && req.query.high) {
+        where.price = {
+          price: {
+            [Op.between]: [req.query.low, req.query.high],
+          },
+        };
+      }
+
+      const products = await Product.findAll({ where });
       res.send(products);
     } catch (err) {
       console.error(err);
@@ -110,20 +127,20 @@ const ProductController = {
     }
   },
 
-  async getAllByName(req, res) {
-    try {
-      const products = await Product.findAll({
-        where: {
-          name: {
-            [Op.like]: `%${req.params.name}%`,
-          },
-        },
-      });
-      res.send(products);
-    } catch (err) {
-      console.error(err);
-    }
-  },
+  // async getAllByName(req, res) {
+  //   try {
+  //     const products = await Product.findAll({
+  //       where: {
+  //         name: {
+  //           [Op.like]: `%${req.params.name}%`,
+  //         },
+  //       },
+  //     });
+  //     res.send(products);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // },
 
   async getOneByPrice(req, res) {
     try {
@@ -139,7 +156,26 @@ const ProductController = {
       console.error(err);
     }
   },
+  //TODO: getProductBetweenPrice() FIXME: req.params
+  // async getProductsBetweenPrice(req, res) {
+  //   try {
+  //     const products = await Product.findAll({
+  //       where: {
+  //         price: {
+  //           [Op.between]: [req.query.low, req.query.high],
+  //           // [Op.between]: [`${req.params.priceLow}`, `${req.params.priceHigh}`],
+  //         },
+  //       },
+  //     });
+  //     console.log(req.params.priceLow);
+  //     console.log(req.params.priceHigh);
+  //     res.send(products);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // },
 
+  //TODO: INCLUDE!!!!!!!!!!!!!
   async getDescByPrice(req, res) {
     try {
       const products = await Product.findAll({

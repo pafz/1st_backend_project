@@ -12,7 +12,7 @@ router.get(
   authentication,
   ProductController.getOneByName
 );
-router.get('/getAllByName/:name', ProductController.getAllByName);
+// router.get('/getAllByName/:name', ProductController.getAllByName);
 
 router.get('/getById/:id', ProductController.getById);
 
@@ -21,6 +21,10 @@ router.get(
   authentication,
   ProductController.getOneByPrice
 );
+// router.get(
+//   '/getProductsBetweenPrice',
+//   ProductController.getProductsBetweenPrice
+// );
 router.get('/getDescByPrice', authentication, ProductController.getDescByPrice);
 router.get(
   '/getAllProductsAndCategories',
