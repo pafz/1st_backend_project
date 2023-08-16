@@ -27,6 +27,7 @@ const ProductController = {
   async getProducts(req, res) {
     try {
       const where = {};
+      const order = {};
 
       if (req.query.name) {
         where.name = {
@@ -36,14 +37,22 @@ const ProductController = {
 
       //if:
       if (req.query.low && req.query.high) {
+        console.log(req.query.low);
+        console.log(req.query.high);
         where.price = {
-          price: {
-            [Op.between]: [req.query.low, req.query.high],
-          },
+          [Op.between]: [req.query.low, req.query.high],
         };
       }
 
-      const products = await Product.findAll({ where });
+      //price desc:
+
+      order.price = { price: [['price', 'DESC']] };
+
+      const products = await Product.findAll({
+        where,
+        order: [['price', 'DESC']],
+      });
+      console.log();
       res.send(products);
     } catch (err) {
       console.error(err);
@@ -65,7 +74,6 @@ const ProductController = {
     }
   },
 
-  // endpoint to delete
   async delete(req, res) {
     try {
       await Product.destroy({
@@ -157,23 +165,23 @@ const ProductController = {
     }
   },
   //TODO: getProductBetweenPrice() FIXME: req.params
-  // async getProductsBetweenPrice(req, res) {
-  //   try {
-  //     const products = await Product.findAll({
-  //       where: {
-  //         price: {
-  //           [Op.between]: [req.query.low, req.query.high],
-  //           // [Op.between]: [`${req.params.priceLow}`, `${req.params.priceHigh}`],
-  //         },
-  //       },
-  //     });
-  //     console.log(req.params.priceLow);
-  //     console.log(req.params.priceHigh);
-  //     res.send(products);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // },
+  async getProductsBetweenPrice(req, res) {
+    try {
+      const products = await Product.findAll({
+        where: {
+          price: {
+            [Op.between]: [req.query.low, req.query.high],
+            // [Op.between]: [`${req.params.priceLow}`, `${req.params.priceHigh}`],
+          },
+        },
+      });
+      console.log(req.params.priceLow);
+      console.log(req.params.priceHigh);
+      res.send(products);
+    } catch (err) {
+      console.error(err);
+    }
+  },
 
   //TODO: INCLUDE!!!!!!!!!!!!!
   async getDescByPrice(req, res) {

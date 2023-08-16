@@ -21,10 +21,10 @@ router.get(
   authentication,
   ProductController.getOneByPrice
 );
-// router.get(
-//   '/getProductsBetweenPrice',
-//   ProductController.getProductsBetweenPrice
-// );
+router.get(
+  '/getProductsBetweenPrice',
+  ProductController.getProductsBetweenPrice
+);
 router.get('/getDescByPrice', authentication, ProductController.getDescByPrice);
 router.get(
   '/getAllProductsAndCategories',
