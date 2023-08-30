@@ -1,11 +1,13 @@
-const { Order, Product, Delivery } = require('../models/index');
+const { Order, Product, Delivery, OrderProduct } = require('../models/index');
 
 const OrderController = {
   //Crea un endpoint para ver los pedidos junto a los productos que tienen
   async getOrdersAndProducts(req, res) {
+    console.log(req.user);
     try {
       const ordersProducts = await Order.findAll({
-        include: [Product],
+        include: { model: OrderProduct, include: Product },
+        where: { UserId: req.user.id },
       });
       res.send({
         message: 'Orders and products are shown successfully!',
@@ -20,15 +22,13 @@ const OrderController = {
   async createOrder(req, res) {
     try {
       //TODO: Get all products by the id of req.body.productId (is an array) and use it as payment prop
-      const products = await Product.findAll({
-        where: {
-          id: req.body.productId,
-        },
-      });
+      const products = req.body.productId;
+      let payment = 0;
 
-      let payment = products.reduce((accumulator, product) => {
-        return accumulator + product.price;
-      }, 0);
+      for (productId of products) {
+        const product = await Product.findByPk(productId);
+        payment += product.price;
+      }
 
       const delivery = await Delivery.findByPk(req.body.delivery);
       payment += delivery.price;

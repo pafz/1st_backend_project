@@ -123,6 +123,19 @@ const UserController = {
     }
   },
 
+  async updateUser(req, res) {
+    try {
+      await User.update(req.body, {
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.send('User successfully updated');
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   async logout(req, res) {
     try {
       await Token.destroy({
