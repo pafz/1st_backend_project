@@ -77,7 +77,7 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Please, insert a role.',
           },
           isIn: {
-            args: [['user', 'guest', 'kid']],
+            args: [['user', 'guest', 'kid', 'admin']],
             msg: 'Please, insert a role user / guest / kid.',
           },
         },
