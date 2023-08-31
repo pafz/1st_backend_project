@@ -38,7 +38,11 @@ const OrderController = {
         payment,
         UserId: req.user.id,
       });
-      order.addProduct(req.body.productId);
+
+      for (ProductId of req.body.productId) {
+        await OrderProduct.create({ ProductId, OrderId: order.id });
+      }
+
       res.status(201).send({ message: 'Order created successfully!', order });
     } catch (err) {
       console.error(err);
